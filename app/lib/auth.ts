@@ -31,7 +31,7 @@ export const verifyToken = (token: string): { userId: string } | null => {
     }
 }
 
-export const getCurrent = async (): Promise<User | null> => {
+export const getCurrentUser = async (): Promise<User | null> => {
     try {
         const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
