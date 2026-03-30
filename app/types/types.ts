@@ -13,7 +13,7 @@ export interface User {
     teamId?: string;
     team?: Team;
     createdAt: Date;
-    updateAt: Date;
+    updatedAt: Date;
 }
 
 export interface Team {
