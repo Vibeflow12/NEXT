@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DB_URL")
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -14,7 +14,7 @@ model User {
   name     String
   role     Role    @default(USER)
   teamId   String?
-  Team     Team?   @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  team     Team?   @relation(fields: [teamId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

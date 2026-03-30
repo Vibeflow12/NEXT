@@ -4,10 +4,9 @@ import { cookies } from "next/headers";
 import { prisma } from "./db";
 import { Role, User } from "../types/types";
 
-const JWT_SECRET = process.env.JWT_SECERT!
-console.log(JWT_SECRET);
+const JWT_SECRET = process.env.JWT_SECRET!
 
-export const hashedPssword = async (password: string): Promise<string> => {
+export const hashPssword = async (password: string): Promise<string> => {
     return bcrypt.hash(password, 12)
 }
 
@@ -60,7 +59,7 @@ export const checkUserPermission = (
     user: User,
     requiredRole: Role
 ): boolean => {
-    const roleHierarchy = {
+    const roleHierarchy: Record<Role, number> = {
         [Role.GUEST]: 0,
         [Role.USER]: 1,
         [Role.MANAGER]: 2,
