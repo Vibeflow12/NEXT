@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
             where.role = { not: Role.ADMIN };
         }
 
-        // ⚙️ Additional filters (safe parsing)
+        //  Additional filters (safe parsing)
         if (teamId) {
             where.teamId = teamId;
         }
@@ -42,7 +42,6 @@ export async function GET(req: NextRequest) {
         if (roleParam && Object.values(Role).includes(roleParam as Role)) {
             where.role = roleParam as Role;
         }
-
         const users = await prisma.user.findMany({
             where,
             select: {
