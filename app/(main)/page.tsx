@@ -34,7 +34,6 @@ const Home = async () => {
                             <li><strong className='text-[#10b981]'>Admin:</strong> User & team management</li>
                             <li><strong className='text-[#f97316]'>Manager:</strong> Team specific management</li>
                             <li><strong className='text-[#f43f5e]'>User:</strong> Basic Dashboard</li>
-
                         </ul>
                     </div>
                 </div>
