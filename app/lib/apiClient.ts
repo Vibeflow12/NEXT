@@ -1,3 +1,5 @@
+import { User } from "@prisma/client";
+
 const API_BASE_URL = process.env.NEXT_PUBLIC_URL || "http://localhost:3000"
 
 class ApiClient {
@@ -7,7 +9,7 @@ class ApiClient {
         this.baseUrl = API_BASE_URL;
     }
 
-    async request(endpoint: string, options: RequestInit = {}) {
+    async request<T>(endpoint: string, options: RequestInit = {}): Promise<T | null> {
         const url = `${this.baseUrl}${endpoint}`;
         const config: RequestInit = {
             headers: {
@@ -17,6 +19,7 @@ class ApiClient {
             credentials: "include",
             ...options,
         };
+
         const response = await fetch(url, config);
 
         if (response.status === 401) {
@@ -27,6 +30,7 @@ class ApiClient {
             const error = await response.json().catch(() => ({ error: "Network error " }));
             throw new Error(error.error || "Request failed")
         }
+        return await response.json()
     }
 
     //auth
@@ -50,7 +54,7 @@ class ApiClient {
     }
 
     async getCurrentUser() {
-        return this.request("/api/users/me");
+        return this.request<User>("/api/auth/me");
     }
 
     //user
@@ -58,7 +62,7 @@ class ApiClient {
         return this.request("/api/users");
     }
     //admin
-    async updaateUserRole(userId: string, role: string) {
+    async updateUserRole(userId: string, role: string) {
         return this.request(`/api/users/${userId}/role`, {
             method: "PATCH",
             body: JSON.stringify({ role }),
@@ -66,11 +70,11 @@ class ApiClient {
     }
 
     async assignUserToTeam(userId: string, teamId: string) {
-        return this.request(`/api/users/${userId}/role`, {
+        return this.request(`/api/users/${userId}/team`, {
             method: "PATCH",
             body: JSON.stringify({ teamId }),
         });
     }
 }
 
-export const api = new ApiClient();
+export const apiClient = new ApiClient();
