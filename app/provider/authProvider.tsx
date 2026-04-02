@@ -66,18 +66,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     //load user on mount
-    useEffect(() => {
-        const loadUser = async () => {
-            try {
-                const userData = await apiClient.getCurrentUser();
-                const mappedUser = userData ? { ...userData, role: userData.role as Role, teamId: userData.teamId || undefined } : null;
-                setUser(mappedUser)
-            } catch (e) {
-                console.error("Failed to load user:", e)
-            }
-        };
-        loadUser()
-    }, [])
+    // useEffect(() => {
+    //     const loadUser = async () => {
+    //         try {
+    //             const userData = await apiClient.getCurrentUser();
+    //             const mappedUser = userData ? { ...userData, role: userData.role as Role, teamId: userData.teamId || undefined } : null;
+    //             setUser(mappedUser)
+    //         } catch (e) {
+    //             console.error("Failed to load user:", e)
+    //         }
+    //     };
+    //     loadUser()
+    // }, [])
 
     return (
         <AuthContext.Provider value={{

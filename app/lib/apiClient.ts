@@ -12,12 +12,13 @@ class ApiClient {
     async request<T>(endpoint: string, options: RequestInit = {}): Promise<T | null> {
         const url = `${this.baseUrl}${endpoint}`;
         const config: RequestInit = {
+            ...options,
             headers: {
                 "Content-Type": "application/json",
                 ...options.headers,
             },
             credentials: "include",
-            ...options,
+
         };
 
         const response = await fetch(url, config);
@@ -25,21 +26,24 @@ class ApiClient {
         if (response.status === 401) {
             return null;
         }
+        const text = await response.text();
+        const data = text ? JSON.parse(text) : null;
 
         if (!response.ok) {
-            const error = await response.json().catch(() => ({ error: "Network error " }));
-            throw new Error(error.error || "Request failed")
+            throw new Error(data?.error || `Request failed with status ${response.status}`);
         }
-        return await response.json()
+
+        return data as T;
     }
 
     //auth
     async register(userData: unknown) {
-        return this.request("/api/auth/register", {
+        return this.request<User>("/api/auth/register", {
             method: "POST",
             body: JSON.stringify(userData),
         });
     }
+
     async login(email: string, password: string) {
         return this.request("/api/auth/login", {
             method: "POST",
