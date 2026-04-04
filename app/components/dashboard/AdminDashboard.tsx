@@ -50,7 +50,7 @@ const AdminDashboard = ({ users, teams, currentUser }: AdminDashboardProps) => {
                 <p className="text-slate-300">User and team management</p>
             </header>
 
-            <div className="grid md:grid-cols-1 gap-6">
+            <div className="grid  grid-cols-1 lg:grid-cols-2 md:grid-cols-1 gap-8 items-start p-4">
                 <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
                     <div className="p-4 border-b border-slate-700">
                         <h3 className="font-semibold text-white">Users ({users.length})</h3>
@@ -123,8 +123,79 @@ const AdminDashboard = ({ users, teams, currentUser }: AdminDashboardProps) => {
                         </table>
                     </div>
                 </div>
+
+
+                {/* team table  */}
+                <div className="bg-slate-800 border border-slate-700 rounded-lg overflow-hidden">
+                    <div className="p-4 border-b border-slate-700">
+                        <h3 className="font-semibold text-white">Teams ({teams.length})</h3>
+                        <p className="text-slate-400 text-sm">team overview</p>
+                    </div>
+
+                    <div className="p-4 overflow-x-auto">
+                        <table className="w-full text-sm">
+                            <thead>
+                                <tr className="border-b border-slate-700 text-left">
+                                    <th className="py-3 text-slate-300 font-medium">Name</th>
+                                    <th className="py-3 text-slate-300 font-medium">Code</th>
+                                    <th className="py-3 text-slate-300 font-medium">Members</th>
+                                    <th className="py-3 text-slate-300 font-medium">Managers</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-700">
+                                {teams.map((team) => {
+
+                                    const teamMembers = users.filter((users) => users.teamId === team.id);
+                                    const teamManagers = teamMembers.filter((users) => users.role === Role.MANAGER);
+
+                                    return (
+                                        <tr
+                                            key={team.id}
+                                            className="border-b border-slate-700"
+                                        >
+                                            <td className="py-2 text-slate-300 font-medium">
+                                                {team.name}
+                                            </td>
+                                            <td className="py-2">
+                                                <span className="bg-blue-500/20 text-blue-300 px-2 py-1 rounded text-">
+                                                    {team.code}
+                                                </span>
+                                            </td>
+
+                                            <td className="py-2 text-slate-300 " >
+                                                {teamMembers.length}users
+                                            </td>
+
+                                            <td className="py-2 text-slate-300 " >
+                                                {teamManagers.length > 0
+                                                    ?
+                                                    (
+                                                        <div className="flex flex-wrap gap-1">
+                                                            {teamManagers.map((manager) => (
+                                                                <span
+                                                                    key={manager.id}
+                                                                    className="bg-blue-500/20 text-blue-300 px-2 py-1 rounded text-xs "
+                                                                    title="manager"
+                                                                >
+                                                                    {manager.name}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    ) : (
+                                                        <span className='text-slate-500 text-xs'>No Manager</span>
+                                                    )
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </div >
     );
 };
 
