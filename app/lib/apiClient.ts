@@ -73,7 +73,7 @@ class ApiClient {
         });
     }
 
-    async assignUserToTeam(userId: string, teamId: string) {
+    async assignUserToTeam(userId: string, teamId: string | null) {
         return this.request(`/api/users/${userId}/team`, {
             method: "PATCH",
             body: JSON.stringify({ teamId }),

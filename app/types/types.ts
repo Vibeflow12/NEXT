@@ -23,7 +23,7 @@ export interface Team {
     code: string;
     members: User[];
     createdAt: Date;
-    updateAt: Date;
+    updatedAt: Date;
 }
 
 export interface AuthContexType {
