@@ -2,6 +2,7 @@
 import { User } from '@/app/types/types'
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAuth } from '@/app/provider/authProvider';
 
 
 interface HeaderProps {
@@ -9,6 +10,7 @@ interface HeaderProps {
 }
 
 const Header = ({ user }: HeaderProps) => {
+    const { logout } = useAuth();
     const pathname = usePathname();
     const navigaton = [
         { name: "Home", href: '/', show: true },
@@ -50,9 +52,9 @@ const Header = ({ user }: HeaderProps) => {
                     <div className='flex items-center space-x-4'>
                         {user ? (
                             <>
-                                <span className='text-sm text-slate-300'>User</span>
+                                <span className='text-sm text-slate-300'>{user.name}</span>
                                 <button
-                                    // onClick={ }
+                                    onClick={logout}
                                     className='px-3 py-2 bg-red-500 text-white text-sm rounded-xl'
                                 >
                                     Logout

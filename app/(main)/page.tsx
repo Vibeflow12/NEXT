@@ -1,7 +1,10 @@
 import Link from 'next/link';
+import { getCurrentUser } from '../lib/auth';
+import { Role } from '../types/types';
 
 const Home = async () => {
-    const user = false;
+    const user = await getCurrentUser();
+    const mappedUser = user ? { ...user, role: user.role as Role, teamId: user.teamId || undefined } : null;
     return (
         <>
             <div className='max-w-4xl mx-auto'>
@@ -38,9 +41,9 @@ const Home = async () => {
                     </div>
                 </div>
                 <div>
-                    {user ? <div className='bg-green-900/30 border  border-green-600 p-4 rounded-lg'>
+                    {mappedUser ? <div className='bg-green-900/30 border  border-green-600 p-4 rounded-lg'>
                         <p className='text-green-300'>
-                            Welcome back, <strong> text</strong> ! You are logged in as{" "}<strong className='text-green-200'>USER</strong>
+                            Welcome back, <strong>{mappedUser.name}</strong> ! You are logged in as{" "}<strong className='text-green-200'>{mappedUser.role}</strong>
                         </p>
                         <Link
                             href="/dashboard"

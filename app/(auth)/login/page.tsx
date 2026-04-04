@@ -20,7 +20,7 @@ const LoginPage = () => {
 
             try {
                 await apiClient.login(email, password)
-                router.push('/')
+                router.push('/dashboard')
                 return { success: true }
             } catch (error) {
                 return {
